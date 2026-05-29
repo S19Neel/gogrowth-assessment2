@@ -1,0 +1,276 @@
+{% comment %}
+  GlowMist — Hero Section
+  ========================
+  Two-column hero with product image, headline, price,
+  offer badge, variant selector, quantity selector,
+  and Add to Cart / See Reviews CTAs.
+
+  All content is editable from the Shopify Theme Customizer
+  via the schema settings below.
+{% endcomment %}
+
+{{ 'glowmist-landing.css' | asset_url | stylesheet_tag }}
+
+{%- assign product = section.settings.product -%}
+
+{%- comment -%} SEO meta tags (bonus) {%- endcomment -%}
+{%- if product != blank -%}
+  <meta property="og:title" content="{{ product.title | escape }}">
+  <meta property="og:description" content="{{ section.settings.subheadline | escape }}">
+  <meta property="og:type" content="product">
+  <meta property="product:price:amount" content="{{ product.price | money_without_currency }}">
+  <meta property="product:price:currency" content="{{ shop.currency }}">
+  {%- if product.featured_image -%}
+    <meta property="og:image" content="{{ product.featured_image | image_url: width: 1200 }}">
+  {%- endif -%}
+{%- endif -%}
+
+{%- comment -%} Announcement bar (bonus — inline) {%- endcomment -%}
+{%- if section.settings.announcement_text != blank -%}
+  <div class="gm-announcement" style="background: var(--gm-accent); color: #fff; text-align: center; padding: 10px 16px; font-size: 13px; font-weight: 600; letter-spacing: 0.03em;">
+    {{ section.settings.announcement_text }}
+  </div>
+{%- endif -%}
+
+<section class="gm-section gm-hero" id="gm-hero" aria-label="Product hero">
+  <div class="gm-container">
+    <div class="gm-hero__grid">
+
+      {%- comment -%} ── Left: Product Image ─────────────────────── {%- endcomment -%}
+      <div class="gm-hero__media">
+        {%- if section.settings.hero_image != blank -%}
+          <img
+            class="gm-hero__image"
+            src="{{ section.settings.hero_image | image_url: width: 900 }}"
+            alt="{{ section.settings.hero_image.alt | default: product.title | escape }}"
+            width="900"
+            height="1125"
+            loading="eager"
+            decoding="async"
+          >
+        {%- elsif product != blank and product.featured_image -%}
+          <!-- Add image: hero product shot — using product featured image as fallback -->
+          <img
+            class="gm-hero__image"
+            src="{{ product.featured_image | image_url: width: 900 }}"
+            alt="{{ product.featured_image.alt | default: product.title | escape }}"
+            width="900"
+            height="1125"
+            loading="eager"
+            decoding="async"
+          >
+        {%- else -%}
+          <!-- Add image: hero product shot of the GlowMist face mist bottle -->
+          {{ 'product-1' | placeholder_svg_tag: 'gm-hero__image' }}
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} ── Right: Content ────────────────────────── {%- endcomment -%}
+      <div class="gm-hero__content">
+
+        <p class="gm-eyebrow" style="text-align: left;">GlowMist</p>
+
+        <h1 class="gm-hero__headline">
+          {{ section.settings.headline | default: 'Instant Hydration. Natural Glow. Anytime.' }}
+        </h1>
+
+        <p class="gm-hero__subheadline">
+          {{ section.settings.subheadline | default: 'A lightweight face mist infused with Aloe Vera, Rose Water, and Hyaluronic Acid. Spray on. Glow on. Your skin will thank you.' }}
+        </p>
+
+        {%- comment -%} Price + Offer Badge {%- endcomment -%}
+        <div class="gm-hero__price-row">
+          {%- if product != blank -%}
+            <span class="gm-hero__price" id="gm-hero-price">
+              {{ product.selected_or_first_available_variant.price | money }}
+            </span>
+            {%- if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price -%}
+              <span class="gm-hero__compare-price">
+                {{ product.selected_or_first_available_variant.compare_at_price | money }}
+              </span>
+            {%- endif -%}
+          {%- else -%}
+            <span class="gm-hero__price" id="gm-hero-price">₹999</span>
+          {%- endif -%}
+
+          {%- if section.settings.offer_text != blank -%}
+            <span class="gm-hero__offer-badge">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+                <line x1="7" y1="7" x2="7.01" y2="7"/>
+              </svg>
+              {{ section.settings.offer_text }}
+            </span>
+          {%- endif -%}
+        </div>
+
+        {%- comment -%} Variant Selector (bonus) {%- endcomment -%}
+        {%- if product != blank and product.has_only_default_variant == false -%}
+          <div class="gm-hero__variants">
+            <label for="gm-variant-select" class="visually-hidden">Select variant</label>
+            <select
+              id="gm-variant-select"
+              class="gm-hero__variant-select"
+              data-gm-variant-select
+            >
+              {%- for variant in product.variants -%}
+                <option
+                  value="{{ variant.id }}"
+                  {% if variant == product.selected_or_first_available_variant %}selected{% endif %}
+                  {% unless variant.available %}disabled{% endunless %}
+                  data-price="{{ variant.price | money }}"
+                >
+                  {{ variant.title }}{% unless variant.available %} — Sold out{% endunless %}
+                </option>
+              {%- endfor -%}
+            </select>
+          </div>
+        {%- endif -%}
+
+        {%- comment -%} Quantity Selector (bonus) {%- endcomment -%}
+        <div class="gm-qty" data-gm-qty>
+          <button type="button" class="gm-qty__btn" data-gm-qty-minus aria-label="Decrease quantity" disabled>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+          </button>
+          <input
+            type="number"
+            class="gm-qty__value"
+            data-gm-qty-value
+            value="1"
+            min="1"
+            max="10"
+            aria-label="Quantity"
+            readonly
+          >
+          <button type="button" class="gm-qty__btn" data-gm-qty-plus aria-label="Increase quantity">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <line x1="12" y1="5" x2="12" y2="19"/>
+              <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+          </button>
+        </div>
+
+        {%- comment -%} CTAs {%- endcomment -%}
+        <div class="gm-hero__ctas">
+          <button
+            type="button"
+            class="gm-btn gm-btn--primary"
+            id="gm-add-to-cart"
+            data-gm-add-to-cart
+            {%- if product != blank -%}
+              data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+            {%- endif -%}
+            {% if product == blank or product.selected_or_first_available_variant.available == false %}disabled{% endif %}
+          >
+            <span class="gm-btn__text">
+              {%- if product != blank and product.selected_or_first_available_variant.available == false -%}
+                Sold Out
+              {%- else -%}
+                {{ section.settings.cta_text | default: 'Add to Cart' }}
+              {%- endif -%}
+            </span>
+            <span class="gm-btn__spinner" aria-hidden="true"></span>
+          </button>
+
+          <a
+            href="#gm-reviews"
+            class="gm-btn gm-btn--secondary"
+            data-gm-smooth-scroll
+          >
+            {{ section.settings.secondary_cta_text | default: 'See Reviews' }}
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{%- comment -%} Toast notification container {%- endcomment -%}
+<div class="gm-toast gm-toast--success" id="gm-toast-success" role="status" aria-live="polite">
+  <svg class="gm-toast__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+    <polyline points="22 4 12 14.01 9 11.01"/>
+  </svg>
+  <span>Added to cart!</span>
+</div>
+
+<div class="gm-toast gm-toast--error" id="gm-toast-error" role="alert" aria-live="assertive">
+  <svg class="gm-toast__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="12" cy="12" r="10"/>
+    <line x1="15" y1="9" x2="9" y2="15"/>
+    <line x1="9" y1="9" x2="15" y2="15"/>
+  </svg>
+  <span id="gm-toast-error-msg">Something went wrong. Please try again.</span>
+</div>
+
+<script src="{{ 'glowmist-landing.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "GlowMist Hero",
+  "tag": "div",
+  "class": "glowmist-hero-section",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Image",
+      "info": "Recommended size: 900×1125px. Add your GlowMist product bottle shot here."
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "Instant Hydration. Natural Glow. Anytime."
+    },
+    {
+      "type": "textarea",
+      "id": "subheadline",
+      "label": "Subheadline",
+      "default": "A lightweight face mist infused with Aloe Vera, Rose Water, and Hyaluronic Acid. Spray on. Glow on. Your skin will thank you."
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA Button Text",
+      "default": "Add to Cart"
+    },
+    {
+      "type": "text",
+      "id": "secondary_cta_text",
+      "label": "Secondary CTA Text",
+      "default": "See Reviews"
+    },
+    {
+      "type": "text",
+      "id": "offer_text",
+      "label": "Offer Badge Text",
+      "default": "Buy 2, Get 1 Free"
+    },
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Announcement Bar Text",
+      "default": "Free shipping on prepaid orders"
+    }
+  ],
+  "presets": [
+    {
+      "name": "GlowMist Hero"
+    }
+  ]
+}
+{% endschema %}

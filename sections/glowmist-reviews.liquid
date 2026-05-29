@@ -1,0 +1,156 @@
+{% comment %}
+  GlowMist — Reviews Section
+  ===========================
+  Customer reviews with star ratings, names, and optional avatars.
+  Uses the glowmist-star-rating snippet for consistent star rendering.
+  Each review is a block editable from the Customizer.
+{% endcomment %}
+
+<section class="gm-section gm-reviews" id="gm-reviews" aria-label="Customer reviews">
+  <div class="gm-container">
+
+    <p class="gm-eyebrow">{{ section.settings.eyebrow | default: 'Real Results' }}</p>
+    <h2 class="gm-section__heading">{{ section.settings.heading | default: 'Loved by Thousands' }}</h2>
+
+    {%- comment -%} Average Rating Summary {%- endcomment -%}
+    {%- if section.blocks.size > 0 -%}
+      {%- assign total_rating = 0 -%}
+      {%- for block in section.blocks -%}
+        {%- assign total_rating = total_rating | plus: block.settings.rating -%}
+      {%- endfor -%}
+      {%- assign avg_rating = total_rating | divided_by: section.blocks.size -%}
+
+      <div class="gm-reviews__summary">
+        <div class="gm-reviews__avg-rating">{{ avg_rating | round: 1 }}</div>
+        <div class="gm-reviews__avg-stars">
+          {% render 'glowmist-star-rating', rating: avg_rating, max: 5 %}
+        </div>
+        <p class="gm-reviews__count">Based on {{ section.blocks.size }} reviews</p>
+      </div>
+    {%- endif -%}
+
+    <div class="gm-reviews__grid">
+
+      {%- for block in section.blocks -%}
+        <div class="gm-review-card gm-animate-in" {{ block.shopify_attributes }}>
+
+          <div class="gm-review-card__header">
+            {%- if block.settings.avatar != blank -%}
+              <!-- Add image: reviewer avatar for {{ block.settings.name }} -->
+              <img
+                class="gm-review-card__avatar"
+                src="{{ block.settings.avatar | image_url: width: 88 }}"
+                alt="{{ block.settings.name | escape }}"
+                width="44"
+                height="44"
+                loading="lazy"
+                decoding="async"
+              >
+            {%- else -%}
+              <div class="gm-review-card__avatar-placeholder" aria-hidden="true">
+                {{ block.settings.name | slice: 0 | upcase }}
+              </div>
+            {%- endif -%}
+
+            <div>
+              <div class="gm-review-card__name">{{ block.settings.name }}</div>
+              {% render 'glowmist-star-rating', rating: block.settings.rating, max: 5 %}
+            </div>
+          </div>
+
+          <p class="gm-review-card__text">"{{ block.settings.text }}"</p>
+        </div>
+      {%- endfor -%}
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "GlowMist Reviews",
+  "tag": "div",
+  "class": "glowmist-reviews-section",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Text",
+      "default": "Real Results"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Loved by Thousands"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Customer Name",
+          "default": "Priya S."
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Star Rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Review Text",
+          "default": "This face mist is a game changer! My skin feels so hydrated and fresh all day."
+        },
+        {
+          "type": "image_picker",
+          "id": "avatar",
+          "label": "Customer Photo (optional)",
+          "info": "Add a reviewer photo. 88×88px recommended."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "GlowMist Reviews",
+      "blocks": [
+        {
+          "type": "review",
+          "settings": {
+            "name": "Priya S.",
+            "rating": 5,
+            "text": "This face mist is a game changer! My skin feels so hydrated and fresh throughout the day. I carry it everywhere now."
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "name": "Ananya R.",
+            "rating": 5,
+            "text": "Finally a mist that doesn't feel sticky! The rose water scent is so soothing. Perfect for my combination skin."
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "name": "Meera K.",
+            "rating": 4,
+            "text": "I use it before applying makeup and it gives my skin such a beautiful dewy base. The Buy 2 Get 1 Free deal is amazing value."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

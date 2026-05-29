@@ -1,0 +1,29 @@
+{% comment %}
+  GlowMist — Star Rating Snippet
+  ==============================
+  Renders a row of filled/empty star SVGs.
+
+  Usage:
+    {% render 'glowmist-star-rating', rating: 5, max: 5 %}
+
+  Parameters:
+    rating  (Number)  The number of filled stars (1–5)
+    max     (Number)  Total stars to display (default: 5)
+{% endcomment %}
+
+{%- assign max_stars = max | default: 5 -%}
+{%- assign filled = rating | default: 5 | round -%}
+
+<div class="gm-review-card__stars" role="img" aria-label="{{ filled }} out of {{ max_stars }} stars">
+  {%- for i in (1..max_stars) -%}
+    {%- if i <= filled -%}
+      <svg class="gm-star-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+      </svg>
+    {%- else -%}
+      <svg class="gm-star-icon gm-star-icon--empty" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+      </svg>
+    {%- endif -%}
+  {%- endfor -%}
+</div>

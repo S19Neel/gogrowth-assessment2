@@ -1,0 +1,115 @@
+{% comment %}
+  GlowMist — Sticky Add to Cart Bar
+  ===================================
+  A fixed bottom bar that appears when the user scrolls
+  past the hero section. Includes product name, price,
+  quantity selector, and Add to Cart button.
+
+  Uses IntersectionObserver for performant scroll detection.
+{% endcomment %}
+
+{%- assign product = section.settings.product -%}
+
+<div
+  class="gm-sticky-bar"
+  id="gm-sticky-bar"
+  data-gm-sticky-bar
+  role="complementary"
+  aria-label="Quick add to cart"
+>
+  <div class="gm-sticky-bar__inner">
+
+    {%- comment -%} Product info {%- endcomment -%}
+    <div class="gm-sticky-bar__info">
+      <span class="gm-sticky-bar__name">
+        {%- if product != blank -%}
+          {{ product.title }}
+        {%- else -%}
+          GlowMist Hydrating Face Mist
+        {%- endif -%}
+      </span>
+      <span class="gm-sticky-bar__price" id="gm-sticky-price">
+        {%- if product != blank -%}
+          {{ product.selected_or_first_available_variant.price | money }}
+        {%- else -%}
+          ₹999
+        {%- endif -%}
+      </span>
+    </div>
+
+    {%- comment -%} Actions {%- endcomment -%}
+    <div class="gm-sticky-bar__actions">
+
+      {%- comment -%} Quantity selector (mirrors hero qty) {%- endcomment -%}
+      <div class="gm-qty" data-gm-sticky-qty>
+        <button type="button" class="gm-qty__btn" data-gm-sticky-qty-minus aria-label="Decrease quantity" disabled>
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+        </button>
+        <input
+          type="number"
+          class="gm-qty__value"
+          data-gm-sticky-qty-value
+          value="1"
+          min="1"
+          max="10"
+          aria-label="Quantity"
+          readonly
+        >
+        <button type="button" class="gm-qty__btn" data-gm-sticky-qty-plus aria-label="Increase quantity">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+        </button>
+      </div>
+
+      {%- comment -%} Add to Cart button {%- endcomment -%}
+      <button
+        type="button"
+        class="gm-btn gm-btn--primary"
+        data-gm-sticky-add-to-cart
+        {%- if product != blank -%}
+          data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+        {%- endif -%}
+        {% if product == blank or product.selected_or_first_available_variant.available == false %}disabled{% endif %}
+      >
+        <span class="gm-btn__text">
+          {{ section.settings.cta_text | default: 'Add to Cart' }}
+        </span>
+        <span class="gm-btn__spinner" aria-hidden="true"></span>
+      </button>
+
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "GlowMist Sticky Cart",
+  "tag": "div",
+  "class": "glowmist-sticky-cart-section",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product",
+      "info": "Select the same product as the hero section."
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button Text",
+      "default": "Add to Cart"
+    }
+  ],
+  "presets": [
+    {
+      "name": "GlowMist Sticky Cart"
+    }
+  ]
+}
+{% endschema %}

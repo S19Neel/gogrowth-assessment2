@@ -1,0 +1,148 @@
+{% comment %}
+  GlowMist — FAQ Accordion Section
+  =================================
+  Collapsible FAQ items with smooth max-height animation.
+  Uses proper ARIA attributes for accessibility.
+  Single-open mode: opening one FAQ closes the others.
+
+  Each FAQ is a block editable from the Customizer.
+{% endcomment %}
+
+<section class="gm-section gm-faq" id="gm-faq" aria-label="Frequently asked questions">
+  <div class="gm-container">
+
+    <p class="gm-eyebrow">{{ section.settings.eyebrow | default: 'Got Questions?' }}</p>
+    <h2 class="gm-section__heading">{{ section.settings.heading | default: 'Frequently Asked Questions' }}</h2>
+    <p class="gm-section__subheading">{{ section.settings.subheading | default: 'Everything you need to know about GlowMist — answered.' }}</p>
+
+    <div class="gm-faq__list" data-gm-faq-list>
+
+      {%- for block in section.blocks -%}
+        <div
+          class="gm-faq-item"
+          data-gm-faq-item
+          {{ block.shopify_attributes }}
+        >
+          <button
+            type="button"
+            class="gm-faq-item__toggle"
+            data-gm-faq-toggle
+            aria-expanded="false"
+            aria-controls="gm-faq-content-{{ block.id }}"
+            id="gm-faq-toggle-{{ block.id }}"
+          >
+            <span>{{ block.settings.question }}</span>
+            <svg class="gm-faq-item__chevron" xmlns="http://www.w3.org/2000/svg"
+                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+
+          <div
+            class="gm-faq-item__content"
+            id="gm-faq-content-{{ block.id }}"
+            role="region"
+            aria-labelledby="gm-faq-toggle-{{ block.id }}"
+          >
+            <div class="gm-faq-item__answer">
+              {{ block.settings.answer }}
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "GlowMist FAQ",
+  "tag": "div",
+  "class": "glowmist-faq-section",
+  "max_blocks": 10,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Text",
+      "default": "Got Questions?"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Frequently Asked Questions"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Section Subheading",
+      "default": "Everything you need to know about GlowMist — answered."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "FAQ Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Is it suitable for oily skin?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Absolutely! GlowMist uses a lightweight, water-based formula that hydrates without adding excess oil. The hyaluronic acid helps balance moisture levels, making it perfect for oily and combination skin types.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "GlowMist FAQ",
+      "blocks": [
+        {
+          "type": "faq",
+          "settings": {
+            "question": "Is it suitable for oily skin?",
+            "answer": "<p>Absolutely! GlowMist uses a lightweight, water-based formula that hydrates without adding excess oil. The hyaluronic acid helps balance moisture levels, making it perfect for oily and combination skin types.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "Can I use it over makeup?",
+            "answer": "<p>Yes! GlowMist is designed with an ultra-fine mist nozzle that won't disturb your makeup. It's perfect as a setting spray or a midday refresh. Just hold the bottle 8–10 inches away and mist lightly.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "How many times can I use it daily?",
+            "answer": "<p>You can use GlowMist as often as you like! We recommend 2–3 times daily for best results — once in the morning, once after lunch, and once before bed. Each bottle contains approximately 200 sprays.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "Is it alcohol-free?",
+            "answer": "<p>Yes, GlowMist is 100% alcohol-free. We use only clean, skin-friendly ingredients including Aloe Vera, Rose Water, Hyaluronic Acid, and Green Tea Extract. No parabens, no sulfates, no artificial fragrances.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "How does the Buy 2, Get 1 Free offer work?",
+            "answer": "<p>Simply add 3 units of GlowMist to your cart and the discount will be applied automatically at checkout. The free bottle will be the same variant as the ones you've selected. This offer is available for a limited time only!</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
