@@ -66,7 +66,7 @@ Below is the verification checklist mapping each requirement of the **Shopify De
 
 ### 3. Bonus Tasks Audited (100% Completed)
 
-I have implemented **all 10 bonus CRO and technical optimizations** to demonstrate professional Shopify mastery:
+I have implemented **all 10 bonus CRO and technical optimizations**:
 
 1. **Variant Selector Integration:** Automatically detects if a selected Shopify product has multiple variants. In [`sections/glowmist-hero.liquid`](file:///c:/Users/sonin/OneDrive/Desktop/Interview/gogrowthlabs/sections/glowmist-hero.liquid#L108-L129), it loops through `product.variants` to render a dropdown.
 2. **Quantity Selector:** Interactive custom minus/plus pickers in both the Hero and Sticky Bar that sync instantly via JS.
