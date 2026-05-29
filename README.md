@@ -15,7 +15,7 @@ Rather than creating static HTML or a rigid, monolithic section, this project co
 ```
 theme/
 ├── assets/
-│   ├── glowmist-landing.css            # Custom HSL color tokens, transitions, responsive grid/flex layouts
+│   ├── glowmist-landing.css            # Custom HSL color tokens, transitions, responsive grid/
 │   └── glowmist-landing.js             # Vanilla JS for Accordion, AJAX Cart, Sticky Bar, Quantity & Variant Sync
 ├── sections/
 │   ├── glowmist-hero.liquid            # Two-column hero (SEO og-tags, announcement bar, quantity/variant picker)
