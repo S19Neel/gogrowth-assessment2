@@ -66,7 +66,7 @@ Below is the verification checklist mapping each requirement of the **Shopify De
 
 ### 3. Bonus Tasks Audited (100% Completed)
 
-We have implemented **all 10 bonus CRO and technical optimizations** to demonstrate professional Shopify mastery:
+I have implemented **all 10 bonus CRO and technical optimizations** to demonstrate professional Shopify mastery:
 
 1. **Variant Selector Integration:** Automatically detects if a selected Shopify product has multiple variants. In [`sections/glowmist-hero.liquid`](file:///c:/Users/sonin/OneDrive/Desktop/Interview/gogrowthlabs/sections/glowmist-hero.liquid#L108-L129), it loops through `product.variants` to render a dropdown.
 2. **Quantity Selector:** Interactive custom minus/plus pickers in both the Hero and Sticky Bar that sync instantly via JS.
@@ -113,7 +113,7 @@ Alternatively, upload them via the **Online Store → Edit Code** administrator 
 
 ## 📈 Design & Conversion Rate Optimization (CRO) Rationale
 
-During development, we prioritized visual design and conversion-driven features to mimic a high-converting premium skincare brand:
+During development, I prioritized visual design and conversion-driven features to mimic a high-converting premium skincare brand:
 * **Visual Polish:** Built using soft pastel backgrounds (`hsl(30, 40%, 98%)`), glassmorphism, responsive shadow boundaries, and high-quality typography.
 * **Reducing Scroll Friction:** The combination of secondary CTA anchor links ("See Reviews"), the sticky bottom bar, and real-time inputs ensures the customer is never more than a single click away from checking out.
 * **Social Proof & Authority:** Highlighted with a large dynamic reviews summary card showing average scores directly beside real user testimonials, and trust badges highlighting dermatologist testing and return guarantees.
