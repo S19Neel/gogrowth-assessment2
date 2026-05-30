@@ -1,0 +1,142 @@
+{% comment %}
+  GlowMist — Cart Drawer Section
+  ================================
+  Floating cart icon with item count badge + slide-out
+  drawer from the right side. Displays all cart items,
+  Buy 2 Get 1 Free offer progress, subtotal, and checkout.
+
+  Cart data is fetched and rendered entirely via AJAX
+  using /cart.js — no page reloads.
+
+  This section should be included ONCE on the page
+  (the JSON template places it last in the order).
+{% endcomment %}
+
+{%- comment -%} ── Floating Cart Icon ──────────────────────── {%- endcomment -%}
+<button
+  type="button"
+  class="gm-cart-toggle"
+  id="gm-cart-toggle"
+  data-gm-cart-toggle
+  aria-label="Open cart"
+  aria-expanded="false"
+  aria-controls="gm-cart-drawer"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="9" cy="21" r="1"/>
+    <circle cx="20" cy="21" r="1"/>
+    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+  </svg>
+  <span class="gm-cart-toggle__count" id="gm-cart-count" data-gm-cart-count aria-live="polite">0</span>
+</button>
+
+{%- comment -%} ── Overlay ────────────────────────────────── {%- endcomment -%}
+<div class="gm-cart-overlay" id="gm-cart-overlay" data-gm-cart-overlay></div>
+
+{%- comment -%} ── Drawer Panel ───────────────────────────── {%- endcomment -%}
+<aside
+  class="gm-cart-drawer"
+  id="gm-cart-drawer"
+  data-gm-cart-drawer
+  role="dialog"
+  aria-modal="true"
+  aria-label="Shopping cart"
+>
+  {%- comment -%} Drawer Header {%- endcomment -%}
+  <div class="gm-cart-drawer__header">
+    <h2 class="gm-cart-drawer__title">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="9" cy="21" r="1"/>
+        <circle cx="20" cy="21" r="1"/>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+      </svg>
+      Your Cart
+      <span class="gm-cart-drawer__item-count" id="gm-drawer-item-count">(0 items)</span>
+    </h2>
+    <button
+      type="button"
+      class="gm-cart-drawer__close"
+      id="gm-cart-close"
+      data-gm-cart-close
+      aria-label="Close cart"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  {%- comment -%} Buy 2 Get 1 Free Offer Progress {%- endcomment -%}
+  <div class="gm-cart-drawer__offer" id="gm-cart-offer" data-gm-cart-offer>
+    <div class="gm-cart-drawer__offer-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+        <line x1="7" y1="7" x2="7.01" y2="7"/>
+      </svg>
+    </div>
+    <div class="gm-cart-drawer__offer-text" id="gm-cart-offer-text">
+      Add 2 items to unlock <strong>Buy 2, Get 1 Free!</strong>
+    </div>
+    <div class="gm-cart-drawer__offer-bar">
+      <div class="gm-cart-drawer__offer-progress" id="gm-cart-offer-progress" style="width: 0%"></div>
+    </div>
+  </div>
+
+  {%- comment -%} Cart Items — dynamically rendered by JS {%- endcomment -%}
+  <div class="gm-cart-drawer__items" id="gm-cart-items" data-gm-cart-items>
+    {%- comment -%} Items are rendered here by glowmist-landing.js {%- endcomment -%}
+  </div>
+
+  {%- comment -%} Empty State {%- endcomment -%}
+  <div class="gm-cart-drawer__empty" id="gm-cart-empty" data-gm-cart-empty>
+    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="9" cy="21" r="1"/>
+      <circle cx="20" cy="21" r="1"/>
+      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+    </svg>
+    <p>Your cart is empty</p>
+    <span>Add some GlowMist to get started!</span>
+  </div>
+
+  {%- comment -%} Cart Footer — Subtotal + Checkout {%- endcomment -%}
+  <div class="gm-cart-drawer__footer" id="gm-cart-footer" data-gm-cart-footer>
+    <div class="gm-cart-drawer__subtotal">
+      <span>Subtotal</span>
+      <span class="gm-cart-drawer__subtotal-price" id="gm-cart-subtotal" data-gm-cart-subtotal>₹0</span>
+    </div>
+    <p class="gm-cart-drawer__note">Shipping & taxes calculated at checkout</p>
+    <a href="/checkout" class="gm-btn gm-btn--primary gm-cart-drawer__checkout" data-gm-checkout-btn>
+      Checkout
+    </a>
+    <a href="/cart" class="gm-cart-drawer__view-cart">View full cart →</a>
+  </div>
+</aside>
+
+{% schema %}
+{
+  "name": "GlowMist Cart Drawer",
+  "tag": "div",
+  "class": "glowmist-cart-drawer-section",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "text",
+      "id": "offer_text_unlocked",
+      "label": "Offer Unlocked Text",
+      "default": "Buy 2, Get 1 Free applied!"
+    }
+  ],
+  "presets": [
+    {
+      "name": "GlowMist Cart Drawer"
+    }
+  ]
+}
+{% endschema %}
+

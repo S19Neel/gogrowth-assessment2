@@ -135,9 +135,17 @@
             "description": "Rich in antioxidants, it supports your skin's natural barrier against environmental stress.",
             "icon": "tea"
           }
+        },
+        "ingredient-5": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Orange Extract",
+            "description": "Rich in Vitamin C, it brightens skin tone, fades dark spots, and boots natural collagen production.",
+            "icon": "orange"
+          }
         }
       },
-      "block_order": ["ingredient-1", "ingredient-2", "ingredient-3", "ingredient-4"]
+      "block_order": ["ingredient-1", "ingredient-2", "ingredient-3", "ingredient-4", "ingredient-5"]
     },
     "how-to-use": {
       "type": "glowmist-how-to-use",
@@ -256,6 +264,12 @@
       "settings": {
         "cta_text": "Add to Cart"
       }
+    },
+    "cart-drawer": {
+      "type": "glowmist-cart-drawer",
+      "settings": {
+        "offer_text_unlocked": "Buy 2, Get 1 Free applied!"
+      }
     }
   },
   "order": [
@@ -266,6 +280,7 @@
     "how-to-use",
     "reviews",
     "faq",
-    "sticky-cart"
+    "sticky-cart",
+    "cart-drawer"
   ]
 }

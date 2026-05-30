@@ -1078,3 +1078,475 @@ html {
 [id^="gm-"] {
   scroll-margin-top: 80px;
 }
+
+
+/* ═══════════════════════════════════════════════════════════
+   CART DRAWER — Floating Icon + Slide-Out Drawer
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Floating Cart Toggle Button ─────────────────────────── */
+.gm-cart-toggle {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 1100;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gm-bg);
+  border: 1.5px solid var(--gm-border);
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--gm-text);
+  box-shadow: 0 4px 20px var(--gm-shadow);
+  transition: all 0.3s var(--gm-ease-out);
+}
+
+.gm-cart-toggle:hover {
+  transform: scale(1.08);
+  border-color: var(--gm-accent);
+  color: var(--gm-accent);
+  box-shadow: 0 8px 32px var(--gm-shadow);
+}
+
+.gm-cart-toggle:active {
+  transform: scale(0.96);
+}
+
+.gm-cart-toggle__count {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--gm-accent), var(--gm-accent-dark));
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: var(--gm-radius-pill);
+  padding: 0 6px;
+  pointer-events: none;
+  transition: transform 0.35s var(--gm-ease-spring);
+}
+
+.gm-cart-toggle__count.is-bumped {
+  transform: scale(1.3);
+}
+
+.gm-cart-toggle__count[data-count="0"] {
+  opacity: 0;
+  transform: scale(0);
+}
+
+@media screen and (max-width: 749px) {
+  .gm-cart-toggle {
+    top: auto;
+    bottom: 80px;
+    right: 16px;
+    width: 48px;
+    height: 48px;
+  }
+}
+
+/* ── Overlay ─────────────────────────────────────────────── */
+.gm-cart-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  background: var(--gm-overlay);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+
+.gm-cart-overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ── Drawer Panel ────────────────────────────────────────── */
+.gm-cart-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1300;
+  width: 420px;
+  max-width: 92vw;
+  background: var(--gm-bg);
+  box-shadow: -8px 0 40px var(--gm-shadow);
+  transform: translateX(100%);
+  transition: transform 0.4s var(--gm-ease-out);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.gm-cart-drawer.is-open {
+  transform: translateX(0);
+}
+
+/* ── Drawer Header ───────────────────────────────────────── */
+.gm-cart-drawer__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--gm-border-light);
+  flex-shrink: 0;
+}
+
+.gm-cart-drawer__title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--gm-font-display);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--gm-text);
+  margin: 0;
+}
+
+.gm-cart-drawer__item-count {
+  font-family: var(--gm-font-body);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--gm-text-muted);
+}
+
+.gm-cart-drawer__close {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: 50%;
+  color: var(--gm-text-muted);
+  transition: all 0.2s ease;
+}
+
+.gm-cart-drawer__close:hover {
+  background: var(--gm-surface-warm);
+  color: var(--gm-text);
+}
+
+/* ── Offer Progress Bar ──────────────────────────────────── */
+.gm-cart-drawer__offer {
+  padding: 16px 24px;
+  background: var(--gm-surface-cream);
+  border-bottom: 1px solid var(--gm-border-light);
+  flex-shrink: 0;
+  transition: background-color 0.4s ease;
+}
+
+.gm-cart-drawer__offer.is-unlocked {
+  background: var(--gm-botanical-soft);
+}
+
+.gm-cart-drawer__offer-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--gm-accent-soft);
+  color: var(--gm-accent);
+  margin-bottom: 8px;
+}
+
+.gm-cart-drawer__offer.is-unlocked .gm-cart-drawer__offer-icon {
+  background: var(--gm-botanical-soft);
+  color: var(--gm-botanical);
+}
+
+.gm-cart-drawer__offer-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gm-text);
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.gm-cart-drawer__offer-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--gm-border-light);
+  border-radius: var(--gm-radius-pill);
+  overflow: hidden;
+}
+
+.gm-cart-drawer__offer-progress {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gm-accent), var(--gm-accent-dark));
+  border-radius: var(--gm-radius-pill);
+  transition: width 0.5s var(--gm-ease-out);
+}
+
+.gm-cart-drawer__offer.is-unlocked .gm-cart-drawer__offer-progress {
+  background: linear-gradient(90deg, var(--gm-botanical), #3E6E3D);
+}
+
+/* ── Cart Items Container ────────────────────────────────── */
+.gm-cart-drawer__items {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 24px;
+  overscroll-behavior: contain;
+}
+
+/* ── Individual Cart Item ────────────────────────────────── */
+.gm-cart-item {
+  display: flex;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--gm-border-light);
+  animation: gm-fadeInUp 0.3s var(--gm-ease-out) both;
+}
+
+.gm-cart-item:last-child {
+  border-bottom: none;
+}
+
+/* Add image: cart line item product thumbnail */
+.gm-cart-item__image {
+  width: 72px;
+  height: 90px;
+  border-radius: var(--gm-radius-sm);
+  object-fit: cover;
+  background: var(--gm-surface-warm);
+  flex-shrink: 0;
+}
+
+.gm-cart-item__image-placeholder {
+  width: 72px;
+  height: 90px;
+  border-radius: var(--gm-radius-sm);
+  background: var(--gm-surface-warm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--gm-text-dim);
+}
+
+.gm-cart-item__details {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.gm-cart-item__title {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--gm-text);
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gm-cart-item__variant {
+  font-size: 12px;
+  color: var(--gm-text-muted);
+}
+
+.gm-cart-item__price {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--gm-text);
+}
+
+.gm-cart-item__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+/* Cart item quantity — smaller version */
+.gm-cart-item__qty {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--gm-border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.gm-cart-item__qty-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--gm-text);
+  font-size: 14px;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.gm-cart-item__qty-btn:hover {
+  background: var(--gm-surface-warm);
+  color: var(--gm-accent);
+}
+
+.gm-cart-item__qty-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.gm-cart-item__qty-val {
+  width: 36px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gm-text);
+  border: none;
+  border-left: 1px solid var(--gm-border);
+  border-right: 1px solid var(--gm-border);
+  background: none;
+  -moz-appearance: textfield;
+}
+
+.gm-cart-item__qty-val::-webkit-outer-spin-button,
+.gm-cart-item__qty-val::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.gm-cart-item__remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--gm-text-dim);
+  padding: 4px;
+  border-radius: 4px;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.gm-cart-item__remove:hover {
+  color: #C0392B;
+  background: rgba(192, 57, 43, 0.08);
+}
+
+/* ── Free Item Badge ─────────────────────────────────────── */
+.gm-cart-item__free-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  background: var(--gm-botanical-soft);
+  color: var(--gm-botanical);
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: var(--gm-radius-pill);
+  letter-spacing: 0.02em;
+}
+
+/* ── Empty State ─────────────────────────────────────────── */
+.gm-cart-drawer__empty {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: 48px 24px;
+  text-align: center;
+  color: var(--gm-text-dim);
+  gap: 12px;
+}
+
+.gm-cart-drawer__empty.is-visible {
+  display: flex;
+}
+
+.gm-cart-drawer__empty p {
+  font-family: var(--gm-font-display);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--gm-text-muted);
+  margin: 0;
+}
+
+.gm-cart-drawer__empty span {
+  font-size: 14px;
+  color: var(--gm-text-dim);
+}
+
+/* ── Drawer Footer ───────────────────────────────────────── */
+.gm-cart-drawer__footer {
+  padding: 20px 24px;
+  border-top: 1px solid var(--gm-border);
+  background: var(--gm-surface-cream);
+  flex-shrink: 0;
+  display: none;
+}
+
+.gm-cart-drawer__footer.is-visible {
+  display: block;
+}
+
+.gm-cart-drawer__subtotal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.gm-cart-drawer__subtotal span:first-child {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gm-text);
+}
+
+.gm-cart-drawer__subtotal-price {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--gm-text);
+}
+
+.gm-cart-drawer__note {
+  font-size: 12px;
+  color: var(--gm-text-dim);
+  margin-bottom: 16px;
+}
+
+.gm-cart-drawer__checkout {
+  width: 100%;
+  text-align: center;
+  padding: 16px;
+  font-size: 15px;
+}
+
+.gm-cart-drawer__view-cart {
+  display: block;
+  text-align: center;
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--gm-accent);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.gm-cart-drawer__view-cart:hover {
+  color: var(--gm-accent-dark);
+}
+
+/* ── Body scroll lock when drawer is open ────────────────── */
+body.gm-cart-open {
+  overflow: hidden;
+}
+

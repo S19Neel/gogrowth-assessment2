@@ -162,10 +162,8 @@
             class="gm-btn gm-btn--primary"
             id="gm-add-to-cart"
             data-gm-add-to-cart
-            {%- if product != blank -%}
-              data-variant-id="{{ product.selected_or_first_available_variant.id }}"
-            {%- endif -%}
-            {% if product == blank or product.selected_or_first_available_variant.available == false %}disabled{% endif %}
+            data-variant-id="{% if product != blank %}{{ product.selected_or_first_available_variant.id }}{% else %}mock{% endif %}"
+            {% if product != blank and product.selected_or_first_available_variant.available == false %}disabled{% endif %}
           >
             <span class="gm-btn__text">
               {%- if product != blank and product.selected_or_first_available_variant.available == false -%}
