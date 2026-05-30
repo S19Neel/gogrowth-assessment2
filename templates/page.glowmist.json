@@ -147,6 +147,92 @@
       },
       "block_order": ["ingredient-1", "ingredient-2", "ingredient-3", "ingredient-4", "ingredient-5"]
     },
+    "clinical-proof": {
+      "type": "glowmist-clinical-proof",
+      "settings": {
+        "eyebrow": "Clinically Proven",
+        "heading": "Dermatologist Approved. Lab Tested. Honest.",
+        "subheading": "In an industry full of exaggerated claims and hidden ingredients, we chose a different path. Every batch of GlowMist is lab-tested and dermatologist-reviewed — because your skin deserves proof, not promises. We are as clear with our customers as our mist.",
+        "callout_text": "Every single ingredient in GlowMist is listed, sourced ethically, and backed by clinical research. No greenwashing. No fine print. No hidden nasties. Just clean, honest skincare that works."
+      },
+      "blocks": {
+        "stat-1": {
+          "type": "stat",
+          "settings": {
+            "number": "97%",
+            "label": "reported visibly improved hydration within 4 weeks"
+          }
+        },
+        "stat-2": {
+          "type": "stat",
+          "settings": {
+            "number": "4.8/5",
+            "label": "average dermatologist approval rating"
+          }
+        },
+        "stat-3": {
+          "type": "stat",
+          "settings": {
+            "number": "0",
+            "label": "parabens, sulfates, or harmful chemicals"
+          }
+        },
+        "stat-4": {
+          "type": "stat",
+          "settings": {
+            "number": "100%",
+            "label": "ingredients sourced and fully disclosed"
+          }
+        },
+        "cert-1": {
+          "type": "certification",
+          "settings": {
+            "text": "Lab Tested Every Batch",
+            "icon": "lab"
+          }
+        },
+        "cert-2": {
+          "type": "certification",
+          "settings": {
+            "text": "Dermatologist Verified",
+            "icon": "shield"
+          }
+        },
+        "cert-3": {
+          "type": "certification",
+          "settings": {
+            "text": "Clinical Research Backed",
+            "icon": "microscope"
+          }
+        },
+        "cert-4": {
+          "type": "certification",
+          "settings": {
+            "text": "GMP Certified Facility",
+            "icon": "certificate"
+          }
+        },
+        "testimonial-1": {
+          "type": "testimonial",
+          "settings": {
+            "name": "Dr. Anjali Mehta",
+            "credentials": "MD Dermatology, 12+ years experience",
+            "quote": "GlowMist uses a clinically effective concentration of Hyaluronic Acid combined with soothing Aloe Vera. The formulation is gentle enough for daily use on all skin types, including sensitive skin. I recommend it to my patients.",
+            "rating": 5
+          }
+        },
+        "testimonial-2": {
+          "type": "testimonial",
+          "settings": {
+            "name": "Dr. Priya Sharma",
+            "credentials": "Cosmetic Dermatologist, MBBS, DVD",
+            "quote": "What sets GlowMist apart is its transparency. Every ingredient is disclosed at clinical-grade detail — something very few Indian skincare brands do. The Rose Water and Green Tea Extract combination is excellent for antioxidant protection.",
+            "rating": 5
+          }
+        }
+      },
+      "block_order": ["stat-1", "stat-2", "stat-3", "stat-4", "cert-1", "cert-2", "cert-3", "cert-4", "testimonial-1", "testimonial-2"]
+    },
     "how-to-use": {
       "type": "glowmist-how-to-use",
       "settings": {
@@ -277,6 +363,7 @@
     "trust-badges",
     "benefits",
     "ingredients",
+    "clinical-proof",
     "how-to-use",
     "reviews",
     "faq",
